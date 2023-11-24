@@ -1,0 +1,6 @@
+ami           = "ami-053b0d53c279acc90"
+instance_type = "t2.micro"
+instance_tag  = "Terraform EC2"
+vpc_cidr_block = "172.21.0.0/16"
+igw_cidr_block = "172.21.1.0/24"
+igw_cidr_block2 = "172.21.2.0/24"
