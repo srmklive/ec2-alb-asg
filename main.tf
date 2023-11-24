@@ -6,6 +6,13 @@ terraform {
     }
   }
 
+  backend "s3" {
+    bucket = "srmk-terraform-state"
+    encrypt = true
+    key = "terraform.infra.state"
+    region = "us-east-1"
+  }
+
   required_version = ">= 1.2.0"
 }
 
