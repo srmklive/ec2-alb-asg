@@ -37,4 +37,5 @@ terraform.rc
 .idea
 *.plan
 *.pem
+!TF-TEST.pem
 *mysql_root_password*
