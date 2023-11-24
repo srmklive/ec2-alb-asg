@@ -87,7 +87,7 @@ resource "aws_instance" "web_server" {
     user     = "ubuntu"
     password = ""
     host     = self.public_ip
-    private_key = file("${path.module}/../../../${var.key_name}.pem")
+    private_key = file("${path.module}/../../${var.key_name}.pem")
   }
 }
 
