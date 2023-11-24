@@ -13,9 +13,10 @@ sudo echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://
 # Initialize the PHP & NodeJS Package Repository
 sudo apt-get update && apt-get install -y language-pack-en-base && \
      export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8 && \
-     apt-get install -y software-properties-common && \
+     apt-get install -y software-properties-common
+sudo export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8 && \
      add-apt-repository -y ppa:ondrej/php && \
-     apt-get update
+     apt-get update     
 
 # Install Nginx, PHP
 sudo apt-get -y install nginx \
