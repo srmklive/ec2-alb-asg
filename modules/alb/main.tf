@@ -151,3 +151,26 @@ resource "aws_cloudwatch_metric_alarm" "web_cpu_alarm_down" {
   alarm_description = "This metric monitor EC2 instance CPU utilization"
   alarm_actions = [ "${aws_autoscaling_policy.web_policy_down.arn}" ]
 }
+
+resource "aws_autoscaling_policy" "web_policy_predictive" {
+ name                   = "policy_predictive"
+ policy_type            = "PredictiveScaling"
+ autoscaling_group_name = aws_autoscaling_group.web.name
+ predictive_scaling_config {
+   metric_specification {
+     target_value = 32
+     predefined_scaling_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+      resource_label         = "AverageCPUUtilization"
+     }
+     predefined_load_metric_specification {
+      predefined_metric_type = "ASGTotalCPUUtilization"
+      resource_label         = "TotalCPUUtilization"
+     }
+   }
+   mode                          = "ForecastAndScale"
+   scheduling_buffer_time        = var.max_buffer_time
+   max_capacity_breach_behavior  = "IncreaseMaxCapacity"
+   max_capacity_buffer           = var.max_capacity_buffer
+ }
+}
