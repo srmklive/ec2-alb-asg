@@ -142,7 +142,7 @@ resource "aws_cloudwatch_metric_alarm" "web_cpu_alarm_down" {
   namespace = "AWS/EC2"
   period = "120"
   statistic = "Average"
-  threshold = "threshold = "${var.min_threshold}""
+  threshold = "${var.min_threshold}"
 
   dimensions = {
     AutoScalingGroupName = "${aws_autoscaling_group.web.name}"
@@ -158,7 +158,7 @@ resource "aws_autoscaling_policy" "web_policy_predictive" {
  autoscaling_group_name = aws_autoscaling_group.web.name
  predictive_scaling_config {
    metric_specification {
-     target_value = var.min_threshold
+     target_value = "${var.min_threshold}"
      predefined_scaling_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
       resource_label         = "AverageCPUUtilization"
