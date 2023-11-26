@@ -156,7 +156,7 @@ resource "aws_autoscaling_policy" "web_policy_predictive" {
  name                   = "policy_predictive"
  policy_type            = "PredictiveScaling"
  autoscaling_group_name = aws_autoscaling_group.web.name
- predictive_scaling_config {
+ predictive_scaling_configuration {
    metric_specification {
      target_value = "${var.min_threshold}"
      predefined_scaling_metric_specification {
