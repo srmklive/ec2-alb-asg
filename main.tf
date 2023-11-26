@@ -8,4 +8,5 @@ module "autoscaling" {
   key_name      = var.key_name
   subnet_id     = aws_subnet.tf-web.id
   subnet_id1    = aws_subnet.tf-web1.id
+  vpc_id = aws_vpc.tf-vpc.id
 }

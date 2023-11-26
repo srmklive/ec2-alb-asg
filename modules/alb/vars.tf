@@ -19,6 +19,10 @@ variable "key_name" {
   description = "SSH Key used for the servers."
 }
 
+variable "vpc_id" {
+  description = "VPC ID information for the Web servers."
+}
+
 variable "subnet_id" {
   description = "Subnet ID information for the Web servers."
 }

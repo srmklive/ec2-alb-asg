@@ -13,7 +13,27 @@ resource "aws_launch_configuration" "web" {
   }
 }
 
-resource "aws_elb" "web_elb" {
+# target group
+resource "aws_lb_target_group" "target-group" {
+  name        = "web-alb-tg"
+  port        = 80
+  protocol    = "HTTP"
+  target_type = "instance"
+  vpc_id      = "${var.vpc_id}"
+
+  health_check {
+    enabled             = true
+    interval            = 10
+    path                = "/"
+    port                = "traffic-port"
+    protocol            = "HTTP"
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+}
+
+resource "aws_lb" "web-alb" {
   name = "web-elb"
   security_groups = [
     "${var.security_group}"
@@ -23,23 +43,19 @@ resource "aws_elb" "web_elb" {
     "${var.subnet_id1}"
   ]
 
-  cross_zone_load_balancing   = true
+  load_balancer_type = "application"
+  enable_cross_zone_load_balancing   = true
+}
 
-  health_check {
-    healthy_threshold = 2
-    unhealthy_threshold = 2
-    timeout = 3
-    interval = 30
-    target = "HTTP:80/"
+resource "aws_lb_listener" "alb-listener" {
+  load_balancer_arn = aws_lb.web-alb.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target-group.arn
   }
-
-  listener {
-    lb_port = 80
-    lb_protocol = "http"
-    instance_port = "80"
-    instance_protocol = "http"
-  }
-
 }
 
 resource "aws_autoscaling_group" "web" {
@@ -50,8 +66,8 @@ resource "aws_autoscaling_group" "web" {
   max_size             = var.max_size
   
   health_check_type    = "ELB"
-  load_balancers = [
-    "${aws_elb.web_elb.id}"
+  target_group_arns = [
+    "${aws_lb_target_group.target-group.arn}"
   ]
 
   launch_configuration = "${aws_launch_configuration.web.name}"
