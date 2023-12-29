@@ -1,4 +1,4 @@
-ami           = "ami-085b50b0ac80b076d"
+ami           = "ami-0fc5d935ebf8bc3bc"
 instance_type = "t3.medium"
 instance_tag  = "Terraform EC2"
 vpc_cidr_block = "172.21.0.0/16"
